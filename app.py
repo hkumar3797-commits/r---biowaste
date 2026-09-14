@@ -245,6 +245,121 @@ def recommended_pathway(waste_id):
         "♻️ Characterization → Processing → Useful Product / Output"
     )
 
+# ---------------------------------------------------
+# EXPLAINABLE WASTE VALUE SCORING
+# ---------------------------------------------------
+
+def calculate_value_score(waste_row):
+
+    waste_id = waste_row[0]
+
+    components = waste_row[4].lower()
+    applications = waste_row[6].lower()
+    products = waste_row[7].lower()
+    environmental = waste_row[8].lower()
+
+    # 1. RECOVERABILITY / PROCESSING EASE
+    easy_process_words = [
+        "washing", "drying", "grinding",
+        "cutting", "cleaning"
+    ]
+
+    recovery_points = sum(
+        3 for word in easy_process_words
+        if word in waste_row[5].lower()
+    )
+
+    recoverability = min(20, 8 + recovery_points)
+
+    # 2. USEFUL COMPONENTS
+    component_keywords = [
+        "cellulose", "hemicellulose", "lignin",
+        "pectin", "starch", "calcium carbonate",
+        "essential oils", "polyphenolic",
+        "organic matter"
+    ]
+
+    component_count = sum(
+        1 for word in component_keywords
+        if word in components
+    )
+
+    useful_components = min(
+        20,
+        5 + (component_count * 3)
+    )
+
+    # 3. PRODUCT POTENTIAL
+    product_keywords = [
+        "biochar", "compost", "biomaterial",
+        "packaging", "paper", "board",
+        "composite", "film", "extract",
+        "essential oil", "soil amendment",
+        "adsorbent", "mushroom substrate",
+        "biofilm", "starch"
+    ]
+
+    product_count = sum(
+        1 for word in product_keywords
+        if word in products
+    )
+
+    product_potential = min(
+        20,
+        5 + (product_count * 3)
+    )
+
+    # 4. ENVIRONMENTAL BENEFIT
+    environmental_keywords = [
+        "reduces", "reduce", "waste",
+        "burning", "resource recovery",
+        "organic waste", "agricultural residue",
+        "useful biomass"
+    ]
+
+    environmental_count = sum(
+        1 for word in environmental_keywords
+        if word in environmental
+    )
+
+    environmental_benefit = min(
+        20,
+        8 + (environmental_count * 2)
+    )
+
+    # 5. AVAILABILITY
+    availability_by_id = {
+        "BW001": 17,  # Banana Peel
+        "BW002": 18,  # Corn Husk
+        "BW003": 17,  # Eggshell
+        "BW004": 16,  # Coffee Waste
+        "BW005": 17,  # Orange Peel
+        "BW006": 18,  # Potato Peel
+        "BW007": 15   # Mango Peel
+    }
+
+    availability = availability_by_id.get(
+        waste_id,
+        10
+    )
+
+    total_score = (
+        recoverability
+        + useful_components
+        + product_potential
+        + environmental_benefit
+        + availability
+    )
+
+    return {
+        "Recoverability": recoverability,
+        "Useful Components": useful_components,
+        "Product Potential": product_potential,
+        "Environmental Benefit": environmental_benefit,
+        "Availability": availability,
+        "Total": total_score
+    }
+
 
 # ---------------------------------------------------
 # PRODUCT INFORMATION
@@ -729,21 +844,26 @@ elif page == "🔎 Explore Waste":
             "♻️ Prototype Waste Value Score"
         )
 
-        score = selected_row[9]
+       score_details = calculate_value_score(selected_row)
+score = score_details["Total"]
 
-        st.progress(
-            score / 100
-        )
+st.progress(score / 100)
 
         st.metric(
             "Value Score",
             f"{score}/100"
         )
 
-        st.caption(
-            "Experimental student-project score; "
-            "not an official scientific standard."
-        )
+       st.markdown("### 📊 Why this score?")
+
+for factor, points in score_details.items():
+    if factor != "Total":
+        st.write(f"**{factor}:** {points}/20")
+
+st.caption(
+    "Score is calculated using a prototype rule-based "
+    "methodology. Each factor contributes a maximum of 20 points."
+)
 
         st.divider()
 
