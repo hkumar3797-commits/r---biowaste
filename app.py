@@ -840,14 +840,14 @@ elif page == "🔎 Explore Waste":
         # VALUE SCORE
         # ------------------------------------------------
 
-        st.subheader(
+      st.subheader(
             "♻️ Prototype Waste Value Score"
         )
 
-       score_details = calculate_value_score(selected_row)
-score = score_details["Total"]
+        score_details = calculate_value_score(selected_row)
+        score = score_details["Total"]
 
-st.progress(score / 100)
+        st.progress(score / 100)
 
         st.metric(
             "Value Score",
