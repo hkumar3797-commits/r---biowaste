@@ -473,30 +473,28 @@ if page == "🏠 Dashboard":
     # HERO SECTION
     # ------------------------------------------------
 
-    st.markdown(
-        """
-        <div style="
-            text-align:center;
-            padding:25px 10px 15px 10px;
-        ">
-            <h1 style="font-size:48px;">
-                ♻️ R-BIOWASTE
-            </h1>
+   st.title("♻️ R-BIOWASTE")
 
-            <h2>
-                Turning Biological Waste into Digital Value
-            </h2>
+st.subheader(
+    "Turning Biological Waste into Digital Value"
+)
 
-            <p style="font-size:18px;">
-                Identify → Characterize → Recover → Create Value
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+st.markdown(
+    "**Identify → Characterize → Recover → Create Value**"
+)
 
-    st.divider()
+st.write(
+    "A digital platform that connects biological waste "
+    "with its composition, recovery pathways and potential products."
+)
 
+st.divider()
+
+st.success(
+    "♻️ Waste → Digital Identity → Components → Recovery → Value"
+)
+
+st.divider()
     # ------------------------------------------------
     # STATISTICS
     # ------------------------------------------------
