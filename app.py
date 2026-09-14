@@ -1207,15 +1207,19 @@ elif page == "➕ Add New Waste":
 
 elif page == "📊 Compare Waste":
 
-    st.title(
-        "📊 Compare Biological Waste"
-    )
+    st.title("📊 Compare Biological Waste")
 
     st.write(
-        "Compare biological wastes based on their "
-        "components, processing pathways, useful products, "
-        "applications and prototype value score."
+        "Compare biological wastes based on their components, "
+        "processing pathways, potential products, environmental "
+        "benefits and prototype value score."
     )
+
+    st.divider()
+
+    # ------------------------------------------------
+    # LOAD WASTE DATA
+    # ------------------------------------------------
 
     conn = sqlite3.connect(DB_NAME)
 
@@ -1254,8 +1258,12 @@ elif page == "📊 Compare Waste":
 
         st.divider()
 
+        # ------------------------------------------------
+        # SELECT WASTE
+        # ------------------------------------------------
+
         waste_options = [
-            f"{row['id']} — {row['name']}"
+            f"{row['id']} - {row['name']}"
             for _, row in compare_df.iterrows()
         ]
 
@@ -1267,29 +1275,45 @@ elif page == "📊 Compare Waste":
 
         if len(selected_wastes) >= 2:
 
+            # ------------------------------------------------
+            # GET SELECTED IDS
+            # ------------------------------------------------
+
             selected_ids = [
-                item.split(" — ")[0]
+                item.split(" - ")[0]
                 for item in selected_wastes
             ]
 
             selected_df = compare_df[
-                compare_df["id"].isin(selected_ids)
+                compare_df["id"].astype(str).isin(selected_ids)
             ].copy()
 
+            # Sort highest score first
             selected_df = selected_df.sort_values(
                 by="score",
                 ascending=False
-            )
+            ).reset_index(drop=True)
 
             st.divider()
 
-            st.subheader(
-                "🏆 Value Score Comparison"
+            # ------------------------------------------------
+            # TOP RESULT
+            # ------------------------------------------------
+
+            best_row = selected_df.iloc[0]
+
+            st.subheader("🏆 Comparison Result")
+
+            st.success(
+                f"🏆 Recommended Waste: **{best_row['name']}** "
+                f"with a Value Score of **{best_row['score']}/100**"
             )
 
-            score_columns = st.columns(
-                len(selected_df)
-            )
+            # ------------------------------------------------
+            # SCORE CARDS
+            # ------------------------------------------------
+
+            score_columns = st.columns(len(selected_df))
 
             for column, (_, row) in zip(
                 score_columns,
@@ -1303,11 +1327,52 @@ elif page == "📊 Compare Waste":
                         f"{row['score']}/100"
                     )
 
+                    st.progress(
+                        float(row["score"]) / 100
+                    )
+
+                    if row["name"] == best_row["name"]:
+                        st.caption("🥇 Highest Value Score")
+
             st.divider()
 
-            st.subheader(
-                "📋 Detailed Comparison"
-            )
+            # ------------------------------------------------
+            # SCORE GAP
+            # ------------------------------------------------
+
+            if len(selected_df) >= 2:
+
+                second_row = selected_df.iloc[1]
+
+                score_gap = (
+                    float(best_row["score"])
+                    - float(second_row["score"])
+                )
+
+                if score_gap > 0:
+
+                    st.info(
+                        f"💡 **Why is {best_row['name']} ranked first?** "
+                        f"It has a Value Score that is "
+                        f"**{score_gap:.0f} point(s) higher** than "
+                        f"{second_row['name']}."
+                    )
+
+                else:
+
+                    st.warning(
+                        "⚖️ The selected wastes have the same "
+                        "Value Score. More experimental data would "
+                        "be useful for choosing between them."
+                    )
+
+            st.divider()
+
+            # ------------------------------------------------
+            # DETAILED COMPARISON
+            # ------------------------------------------------
+
+            st.subheader("🔬 Detailed Comparison")
 
             display_df = selected_df[
                 [
@@ -1341,9 +1406,11 @@ elif page == "📊 Compare Waste":
 
             st.divider()
 
-            st.subheader(
-                "📊 Prototype Waste Value Score"
-            )
+            # ------------------------------------------------
+            # VALUE SCORE CHART
+            # ------------------------------------------------
+
+            st.subheader("📊 Value Score Comparison")
 
             chart_data = selected_df[
                 ["name", "score"]
@@ -1355,25 +1422,17 @@ elif page == "📊 Compare Waste":
 
             st.divider()
 
-            best_row = selected_df.iloc[0]
+            # ------------------------------------------------
+            # WINNER DETAILS
+            # ------------------------------------------------
 
             st.subheader(
-                "🏆 Highest Value Potential"
+                f"🥇 Why {best_row['name']} is Recommended"
             )
 
-            st.success(
-                f"**{best_row['name']}** has the highest "
-                f"prototype value score: "
-                f"**{best_row['score']}/100**"
-            )
+            winner_col1, winner_col2 = st.columns(2)
 
-            st.subheader(
-                f"💡 Recommended Waste: {best_row['name']}"
-            )
-
-            col1, col2 = st.columns(2)
-
-            with col1:
+            with winner_col1:
 
                 st.markdown("### 🧪 Major Components")
 
@@ -1387,24 +1446,24 @@ elif page == "📊 Compare Waste":
                     best_row["processing"]
                 )
 
-                st.markdown("### 📦 Possible Products")
+                st.markdown("### 🌱 Environmental Benefit")
+
+                st.write(
+                    best_row["environmental_benefit"]
+                )
+
+            with winner_col2:
+
+                st.markdown("### 🏭 Possible Products")
 
                 st.write(
                     best_row["products"]
                 )
 
-            with col2:
-
                 st.markdown("### 🔬 Potential Applications")
 
                 st.write(
                     best_row["applications"]
-                )
-
-                st.markdown("### 🌱 Environmental Benefit")
-
-                st.write(
-                    best_row["environmental_benefit"]
                 )
 
                 st.metric(
@@ -1414,10 +1473,23 @@ elif page == "📊 Compare Waste":
 
             st.divider()
 
+            # ------------------------------------------------
+            # DECISION SUPPORT
+            # ------------------------------------------------
+
+            st.subheader("💡 Decision Support")
+
+            st.write(
+                f"Based on the current prototype scoring system, "
+                f"**{best_row['name']}** has the highest value score "
+                f"among the selected wastes."
+            )
+
             st.caption(
-                "⚠️ The Value Score is an experimental "
-                "student-project scoring system and is "
-                "not an official scientific standard."
+                "The recommendation is based on the prototype "
+                "Value Score stored in the R-Biowaste database. "
+                "It is a student-project decision-support indicator, "
+                "not an official scientific or commercial ranking."
             )
 
         else:
@@ -1425,7 +1497,6 @@ elif page == "📊 Compare Waste":
             st.info(
                 "👆 Select at least 2 waste types to start comparison."
             )
-
 
 # ---------------------------------------------------
 # FOOTER
