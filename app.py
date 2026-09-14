@@ -463,22 +463,43 @@ if qr_page=="explore":
 # ===================================================
 # DASHBOARD
 # ===================================================
+# ===================================================
+# DASHBOARD
+# ===================================================
 
 if page == "🏠 Dashboard":
 
-    st.title("♻️ R-BIOWASTE")
+    # ------------------------------------------------
+    # HERO SECTION
+    # ------------------------------------------------
 
-    st.subheader(
-        "Biological Waste → Data → Value"
-    )
+    st.markdown(
+        """
+        <div style="
+            text-align:center;
+            padding:25px 10px 15px 10px;
+        ">
+            <h1 style="font-size:48px;">
+                ♻️ R-BIOWASTE
+            </h1>
 
-    st.write(
-        "A student innovation prototype that connects "
-        "physical biological waste samples with digital "
-        "information and potential waste-to-value pathways."
+            <h2>
+                Turning Biological Waste into Digital Value
+            </h2>
+
+            <p style="font-size:18px;">
+                Identify → Characterize → Recover → Create Value
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
     st.divider()
+
+    # ------------------------------------------------
+    # STATISTICS
+    # ------------------------------------------------
 
     categories = sorted(
         list(set(row[2] for row in waste_data))
@@ -492,68 +513,228 @@ if page == "🏠 Dashboard":
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.metric("Waste Types", len(waste_data))
+        st.metric(
+            "♻️ Waste Types",
+            len(waste_data)
+        )
 
     with col2:
-        st.metric("Categories", len(categories))
+        st.metric(
+            "📂 Categories",
+            len(categories)
+        )
 
     with col3:
         st.metric(
-            "Average Value Score",
+            "📊 Average Value",
             f"{average_score:.0f}/100"
         )
 
     with col4:
-        st.metric("System Status", "WORKING")
+        st.metric(
+            "🔖 Digital Identity",
+            "100%"
+        )
 
     st.divider()
 
-    st.header("🔄 How R-Biowaste Works")
+    # ------------------------------------------------
+    # WASTE TO VALUE
+    # ------------------------------------------------
 
-    col1, col2, col3, col4 = st.columns(4)
+    st.subheader("🌱 From Waste to Value")
 
-    with col1:
-        st.markdown("### 1️⃣ Identify")
+    flow1, flow2, flow3, flow4, flow5 = st.columns(5)
+
+    with flow1:
+        st.markdown("### ♻️")
+        st.markdown("**Waste**")
+        st.caption("Biological waste sample")
+
+    with flow2:
+        st.markdown("### 🔖")
+        st.markdown("**Digital ID**")
+        st.caption("Unique waste identity")
+
+    with flow3:
+        st.markdown("### 🔬")
+        st.markdown("**Components**")
+        st.caption("Useful materials")
+
+    with flow4:
+        st.markdown("### ⚙️")
+        st.markdown("**Recovery**")
+        st.caption("Processing pathway")
+
+    with flow5:
+        st.markdown("### 🏭")
+        st.markdown("**Product**")
+        st.caption("Potential value")
+
+    st.success(
+        "♻️ Waste → Digital Identity → Components → "
+        "Recovery → Possible Product"
+    )
+
+    st.divider()
+
+    # ------------------------------------------------
+    # WHY R-BIOWASTE
+    # ------------------------------------------------
+
+    st.subheader("💡 Why R-Biowaste?")
+
+    problem_col, solution_col = st.columns(2)
+
+    with problem_col:
+
+        st.markdown("### ⚠️ The Problem")
+
         st.write(
-            "Give each biological waste sample a unique ID."
+            "Biological waste is often discarded even though "
+            "it may contain useful materials such as cellulose, "
+            "pectin, starch and calcium-rich compounds."
         )
 
-    with col2:
+    with solution_col:
+
+        st.markdown("### 🚀 Our Solution")
+
+        st.write(
+            "R-Biowaste gives waste a digital identity and "
+            "connects its composition with processing pathways, "
+            "potential products and a transparent value score."
+        )
+
+    st.divider()
+
+    # ------------------------------------------------
+    # FEATURED WASTE
+    # ------------------------------------------------
+
+    st.subheader("🏆 Featured Waste")
+
+    if waste_data:
+
+        best_waste = max(
+            waste_data,
+            key=lambda row: row[9]
+        )
+
+        featured_col1, featured_col2 = st.columns([2, 1])
+
+        with featured_col1:
+
+            st.markdown(
+                f"## ♻️ {best_waste[1]}"
+            )
+
+            st.write(
+                f"**Category:** {best_waste[2]}"
+            )
+
+            st.write(
+                f"**Major Components:** {best_waste[4]}"
+            )
+
+            st.write(
+                f"**Potential Products:** {best_waste[7]}"
+            )
+
+            st.success(
+                recommended_pathway(best_waste[0])
+            )
+
+        with featured_col2:
+
+            st.metric(
+                "Value Potential",
+                f"{best_waste[9]}/100"
+            )
+
+            st.progress(
+                best_waste[9] / 100
+            )
+
+            st.info(
+                f"Digital Waste ID: {best_waste[0]}"
+            )
+
+    st.divider()
+
+    # ------------------------------------------------
+    # PROJECT WORKFLOW
+    # ------------------------------------------------
+
+    st.subheader("🔬 How R-Biowaste Works")
+
+    step1, step2, step3, step4 = st.columns(4)
+
+    with step1:
+        st.markdown("### 1️⃣ Identify")
+        st.write(
+            "Assign a unique digital identity to the waste."
+        )
+
+    with step2:
         st.markdown("### 2️⃣ Characterize")
         st.write(
             "Record source, composition and important properties."
         )
 
-    with col3:
+    with step3:
         st.markdown("### 3️⃣ Recover")
         st.write(
-            "Explore possible processing and recovery pathways."
+            "Identify suitable processing and recovery pathways."
         )
 
-    with col4:
+    with step4:
         st.markdown("### 4️⃣ Create Value")
         st.write(
-            "Identify possible useful products and outputs."
+            "Connect recovered materials with possible products."
         )
 
     st.divider()
 
-    st.header("🌱 Waste → Value")
+    # ------------------------------------------------
+    # CALL TO ACTION
+    # ------------------------------------------------
 
-    st.success(
-        "Physical Waste → Unique ID → Digital Profile → "
-        "Component → Recovery → Possible Product"
-    )
+    st.subheader("🚀 Explore the R-Biowaste Database")
+
+    action1, action2, action3 = st.columns(3)
+
+    with action1:
+        st.info(
+            "🔎 **Explore Waste**\n\n"
+            "Search and filter biological waste types."
+        )
+
+    with action2:
+        st.info(
+            "📊 **Compare Waste**\n\n"
+            "Compare value potential and processing pathways."
+        )
+
+    with action3:
+        st.info(
+            "➕ **Add New Waste**\n\n"
+            "Create a new digital waste identity."
+        )
 
     st.divider()
 
-    st.header("💡 Project Innovation")
+    # ------------------------------------------------
+    # FOOTER MESSAGE
+    # ------------------------------------------------
 
-    st.info(
-        "R-Biowaste gives physical biological waste samples "
-        "a unique digital identity and connects them with "
-        "composition, processing, possible products and "
-        "an experimental Waste Value Score."
+    st.success(
+        "🌱 Biological Waste → Data → Knowledge → Value"
+    )
+
+    st.caption(
+        "R-Biowaste | Student Innovation Prototype | "
+        "Digital Biological Waste Valorization Platform"
     )
 
 
