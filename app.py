@@ -473,36 +473,27 @@ if page == "🏠 Dashboard":
     # HERO SECTION
     # ------------------------------------------------
 
-   st.title("♻️ R-BIOWASTE")
+    st.title("♻️ R-BIOWASTE")
 
-st.subheader(
-    "Turning Biological Waste into Digital Value"
-)
+    st.subheader(
+        "Turning Biological Waste into Digital Value"
+    )
 
-st.markdown(
-    "**Identify → Characterize → Recover → Create Value**"
-)
+    st.write(
+        "Identify → Characterize → Recover → Create Value"
+    )
 
-st.write(
-    "A digital platform that connects biological waste "
-    "with its composition, recovery pathways and potential products."
-)
+    st.divider()
 
-st.divider()
-
-st.success(
-    "♻️ Waste → Digital Identity → Components → Recovery → Value"
-)
-
-st.divider()
     # ------------------------------------------------
     # STATISTICS
     # ------------------------------------------------
-categories = sorted(
+
+    categories = sorted(
         list(set(row[2] for row in waste_data))
     )
 
-average_score = (
+    average_score = (
         sum(row[9] for row in waste_data)
         / len(waste_data)
     )
@@ -536,7 +527,7 @@ average_score = (
     st.divider()
 
     # ------------------------------------------------
-    # WASTE TO VALUE
+    # FROM WASTE TO VALUE
     # ------------------------------------------------
 
     st.subheader("🌱 From Waste to Value")
@@ -545,27 +536,27 @@ average_score = (
 
     with flow1:
         st.markdown("### ♻️")
-        st.markdown("**Waste**")
+        st.write("**Waste**")
         st.caption("Biological waste sample")
 
     with flow2:
         st.markdown("### 🔖")
-        st.markdown("**Digital ID**")
+        st.write("**Digital ID**")
         st.caption("Unique waste identity")
 
     with flow3:
         st.markdown("### 🔬")
-        st.markdown("**Components**")
+        st.write("**Components**")
         st.caption("Useful materials")
 
     with flow4:
         st.markdown("### ⚙️")
-        st.markdown("**Recovery**")
+        st.write("**Recovery**")
         st.caption("Processing pathway")
 
     with flow5:
         st.markdown("### 🏭")
-        st.markdown("**Product**")
+        st.write("**Product**")
         st.caption("Potential value")
 
     st.success(
@@ -579,12 +570,11 @@ average_score = (
     # WHY R-BIOWASTE
     # ------------------------------------------------
 
-    st.subheader("💡 Why R-Biowaste?")
+    st.subheader("💡 Why R-BIOWASTE?")
 
     problem_col, solution_col = st.columns(2)
 
     with problem_col:
-
         st.markdown("### ⚠️ The Problem")
 
         st.write(
@@ -594,12 +584,11 @@ average_score = (
         )
 
     with solution_col:
-
         st.markdown("### 🚀 Our Solution")
 
         st.write(
-            "R-Biowaste gives waste a digital identity and "
-            "connects its composition with processing pathways, "
+            "R-BIOWASTE gives every waste sample a digital identity "
+            "and connects its composition with recovery pathways, "
             "potential products and a transparent value score."
         )
 
@@ -609,7 +598,7 @@ average_score = (
     # FEATURED WASTE
     # ------------------------------------------------
 
-    st.subheader("🏆 Featured Waste")
+    st.subheader("🏆 Highest Value Potential")
 
     if waste_data:
 
@@ -618,12 +607,12 @@ average_score = (
             key=lambda row: row[9]
         )
 
-        featured_col1, featured_col2 = st.columns([2, 1])
+        featured_col1, featured_col2 = st.columns(2)
 
         with featured_col1:
 
             st.markdown(
-                f"## ♻️ {best_waste[1]}"
+                f"### ♻️ {best_waste[1]}"
             )
 
             st.write(
@@ -638,14 +627,10 @@ average_score = (
                 f"**Potential Products:** {best_waste[7]}"
             )
 
-            st.success(
-                recommended_pathway(best_waste[0])
-            )
-
         with featured_col2:
 
             st.metric(
-                "Value Potential",
+                "Value Score",
                 f"{best_waste[9]}/100"
             )
 
@@ -654,16 +639,16 @@ average_score = (
             )
 
             st.info(
-                f"Digital Waste ID: {best_waste[0]}"
+                f"🔖 Digital Waste ID: {best_waste[0]}"
             )
 
     st.divider()
 
     # ------------------------------------------------
-    # PROJECT WORKFLOW
+    # HOW IT WORKS
     # ------------------------------------------------
 
-    st.subheader("🔬 How R-Biowaste Works")
+    st.subheader("🔬 How R-BIOWASTE Works")
 
     step1, step2, step3, step4 = st.columns(4)
 
@@ -694,35 +679,35 @@ average_score = (
     st.divider()
 
     # ------------------------------------------------
-    # CALL TO ACTION
+    # EXPLORE
     # ------------------------------------------------
 
-    st.subheader("🚀 Explore the R-Biowaste Database")
+    st.subheader("🚀 Explore R-BIOWASTE")
 
-    action1, action2, action3 = st.columns(3)
+    explore1, explore2, explore3 = st.columns(3)
 
-    with action1:
+    with explore1:
         st.info(
-            "🔎 **Explore Waste**\n\n"
-            "Search and filter biological waste types."
+            "🔎 Explore Waste\n\n"
+            "View biological waste profiles and their properties."
         )
 
-    with action2:
+    with explore2:
         st.info(
-            "📊 **Compare Waste**\n\n"
-            "Compare value potential and processing pathways."
+            "📊 Compare Waste\n\n"
+            "Compare different wastes by their value potential."
         )
 
-    with action3:
+    with explore3:
         st.info(
-            "➕ **Add New Waste**\n\n"
+            "➕ Add New Waste\n\n"
             "Create a new digital waste identity."
         )
 
     st.divider()
 
     # ------------------------------------------------
-    # FOOTER MESSAGE
+    # FOOTER
     # ------------------------------------------------
 
     st.success(
@@ -730,11 +715,9 @@ average_score = (
     )
 
     st.caption(
-        "R-Biowaste | Student Innovation Prototype | "
+        "R-BIOWASTE | Student Innovation Prototype | "
         "Digital Biological Waste Valorization Platform"
     )
-
-
 # ===================================================
 # EXPLORE WASTE
 # ===================================================
