@@ -840,7 +840,7 @@ elif page == "🔎 Explore Waste":
         # VALUE SCORE
         # ------------------------------------------------
 
-      st.subheader(
+ st.subheader(
             "♻️ Prototype Waste Value Score"
         )
 
@@ -854,19 +854,20 @@ elif page == "🔎 Explore Waste":
             f"{score}/100"
         )
 
-       st.markdown("### 📊 Why this score?")
+        st.markdown("### 📊 Why this score?")
 
-for factor, points in score_details.items():
-    if factor != "Total":
-        st.write(f"**{factor}:** {points}/20")
+        for factor, points in score_details.items():
+            if factor != "Total":
+                st.write(
+                    f"**{factor}:** {points}/20"
+                )
 
-st.caption(
-    "Score is calculated using a prototype rule-based "
-    "methodology. Each factor contributes a maximum of 20 points."
-)
+        st.caption(
+            "Score is calculated using a prototype rule-based "
+            "methodology. Each factor contributes a maximum of 20 points."
+        )
 
         st.divider()
-
         # =================================================
         # QR CODE
         # =================================================
