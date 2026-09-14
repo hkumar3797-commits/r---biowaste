@@ -502,7 +502,7 @@ categories = sorted(
         list(set(row[2] for row in waste_data))
     )
 
-    average_score = (
+average_score = (
         sum(row[9] for row in waste_data)
         / len(waste_data)
     )
