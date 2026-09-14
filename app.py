@@ -340,7 +340,7 @@ page = st.sidebar.radio(
 # QR SCAN REDIRECT
 # ===================================================
 
-if qr_page=="explore";
+if qr_page=="explore":
 
     page = "🔎 Explore Waste"
 
