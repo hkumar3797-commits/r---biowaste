@@ -498,8 +498,7 @@ st.divider()
     # ------------------------------------------------
     # STATISTICS
     # ------------------------------------------------
-
-    categories = sorted(
+categories = sorted(
         list(set(row[2] for row in waste_data))
     )
 
