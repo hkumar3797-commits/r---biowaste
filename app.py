@@ -26,7 +26,7 @@ DB_NAME = "r_biowaste.db"
 # Example:
 # APP_URL = "https://r-biowaste.streamlit.app"
 #
-APP_URL = "https://YOUR-APP-NAME.streamlit.app"
+APP_URL = "https://r---biowaste-jdsxgkkkuxxbsblztsczea.streamlit.app"
 
 
 # ---------------------------------------------------
