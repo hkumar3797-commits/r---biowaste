@@ -200,13 +200,13 @@ def add_waste(data):
 
 image_files = {
 
-    "BW001": "images/banana.jpg",
-    "BW002": "images/corn.jpg",
-    "BW003": "images/eggshell.jpg",
-    "BW004": "images/coffee.jpg",
-    "BW005": "images/orange.jpg",
-    "BW006": "images/potato.jpg",
-    "BW007": "images/mango.jpg"
+    "BW001": "banana.jpg",
+    "BW002": "corn.jpg",
+    "BW003": "eggshell.jpg",
+    "BW004": "coffee.jpg",
+    "BW005": "orange.jpg",
+    "BW006": "potato.jpg",
+    "BW007": "mango.jpg"
 }
 
 
