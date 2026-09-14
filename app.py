@@ -840,7 +840,7 @@ elif page == "🔎 Explore Waste":
         # VALUE SCORE
         # ------------------------------------------------
 
- st.subheader(
+        st.subheader(
             "♻️ Prototype Waste Value Score"
         )
 
