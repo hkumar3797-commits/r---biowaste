@@ -309,7 +309,8 @@ waste_data = get_waste()
 # QR PARAMETER
 # ===================================================
 
-qr_waste_id = st.query_params.get("waste")
+qr_page = st.query_params.get("page")
+qr_waste_id= None
 
 
 # ---------------------------------------------------
@@ -339,7 +340,7 @@ page = st.sidebar.radio(
 # QR SCAN REDIRECT
 # ===================================================
 
-if qr_waste_id:
+if qr_page=="explore";
 
     page = "🔎 Explore Waste"
 
@@ -755,11 +756,7 @@ elif page == "🔎 Explore Waste":
         )
 
         # Public URL containing waste ID
-        waste_url = (
-            APP_URL
-            + "?waste="
-            + selected_row[0]
-        )
+        waste_url = APP_URL + "?page=explore"
 
         qr = qrcode.make(waste_url)
 
